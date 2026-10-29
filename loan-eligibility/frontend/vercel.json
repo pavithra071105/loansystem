@@ -1,8 +1,16 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://YOUR-RENDER-BACKEND-URL.onrender.com/api/$1"
+  "services": {
+    "frontend": {
+      "root": "loan-eligibility/frontend",
+      "framework": "vite"
+    },
+    "backend": {
+      "root": "loan-eligibility/backend",
+      "entrypoint": "run:app"
     }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": { "service": "backend" } },
+    { "source": "/(.*)", "destination": { "service": "frontend" } }
   ]
 }
