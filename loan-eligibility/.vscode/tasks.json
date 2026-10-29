@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Backend: install",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": "python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt",
+      "windows": { "command": "python -m venv .venv; .venv\\Scripts\\python -m pip install -r requirements.txt" }
+    },
+    {
+      "label": "Frontend: install",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "command": "npm install"
+    },
+    {
+      "label": "Backend: seed demo data",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": ".venv/bin/python seed_demo.py",
+      "windows": { "command": ".venv\\Scripts\\python seed_demo.py" }
+    },
+    {
+      "label": "Backend: run (Flask :5000)",
+      "type": "shell",
+      "isBackground": true,
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": ".venv/bin/python run.py",
+      "windows": { "command": ".venv\\Scripts\\python run.py" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Frontend: run (Vite :5173)",
+      "type": "shell",
+      "isBackground": true,
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "command": "npm run dev",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run full stack",
+      "dependsOn": ["Backend: run (Flask :5000)", "Frontend: run (Vite :5173)"],
+      "dependsOrder": "parallel",
+      "problemMatcher": []
+    },
+    {
+      "label": "Backend: tests",
+      "type": "shell",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "command": ".venv/bin/python -m pytest -q",
+      "windows": { "command": ".venv\\Scripts\\python -m pytest -q" },
+      "group": "test"
+    }
+  ]
+}
