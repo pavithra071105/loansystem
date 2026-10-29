@@ -1,4 +1,5 @@
 import { Calculator, FilePlus2, History, LayoutDashboard, LogOut, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
@@ -19,7 +20,12 @@ export function AppLayout() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const nav = user?.role === "admin" ? ADMIN_NAV : APPLICANT_NAV;
-  const leave = () => { signOut(); navigate("/login"); };
+  const [signOutError, setSignOutError] = useState("");
+  const leave = async () => {
+    setSignOutError("");
+    try { await signOut(); navigate("/login"); }
+    catch { setSignOutError("Unable to sign out. Check your connection and try again."); }
+  };
 
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[250px_1fr]">
@@ -58,7 +64,7 @@ export function AppLayout() {
             ))}
           </nav>
         </header>
-        <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-8 lg:py-10"><Outlet /></main>
+        <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-8 lg:py-10">{signOutError && <p role="alert" className="mb-4 rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">{signOutError}</p>}<Outlet /></main>
       </div>
     </div>
   );

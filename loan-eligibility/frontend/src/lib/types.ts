@@ -1,5 +1,5 @@
 export type Role = "applicant" | "admin";
-export interface User { id: number; name: string; email: string; role: Role }
+export interface User { id: string; name: string; email: string; role: Role }
 
 export interface Option { value: string | number; label: string }
 export interface Field {
