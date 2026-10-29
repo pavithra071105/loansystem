@@ -1,0 +1,14 @@
+[build]
+  base = "loan-eligibility/frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[dev]
+  command = "npm --prefix loan-eligibility/frontend run dev -- --host 0.0.0.0"
+  targetPort = 5173
+  port = 8889
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
